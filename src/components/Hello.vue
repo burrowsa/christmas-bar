@@ -1,10 +1,17 @@
 <template>
-  <h1>Hello {{ $route.params.who }}</h1>
+  <h1>{{ state.greeting }} {{ $route.params.who }}</h1>
 </template>
 
 <script>
+import state from '@/components/shared'
+
 export default {
-  name: 'Hello'
+  name: 'Hello',
+  data () {
+    return {
+      state
+    }
+  }
 }
 </script>
 

@@ -8,8 +8,8 @@
       <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
       <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
       <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <li><router-link to="/hello/Dave">Hello Dave</router-link></li>
-      <li><router-link to="/hello/Ben">Hello Ben</router-link></li>
+      <li><router-link to="/hello/Dave">{{ state.greeting }} Dave</router-link></li>
+      <li><router-link to="/hello/Ben">{{ state.greeting }} Ben</router-link></li>
       <br>
       <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
     </ul>
@@ -20,15 +20,19 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <input v-model="state.greeting">
   </div>
 </template>
 
 <script>
+import state from '@/components/shared'
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      state
     }
   }
 }
