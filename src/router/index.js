@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Hello from '@/components/Hello'
+import DrinkList from '@/pages/DrinkList'
+import DrinkDetails from '@/pages/DrinkDetails'
 
 Vue.use(Router)
 
@@ -9,13 +9,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Drinks',
+      component: DrinkList
     },
     {
-      path: '/hello/:who',
-      name: 'Hello',
-      component: Hello
+      path: '/drink/:drinkId',
+      name: 'Drink',
+      component: DrinkDetails,
+      props: true
     }
   ]
 })

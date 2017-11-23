@@ -10,6 +10,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-   @import 'App.scss'
+<style lang="scss">
+  $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+  @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+  @import 'App.scss';
 </style>
