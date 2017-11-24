@@ -1,12 +1,19 @@
 <template>
   <div id="app">
+    <header-bar></header-bar>
+  
     <router-view/>
   </div>
 </template>
 
 <script>
+import HeaderBar from '@/components/HeaderBar'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    HeaderBar
+  }
 }
 </script>
 
