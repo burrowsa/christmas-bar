@@ -1,5 +1,7 @@
 <template>
-  <div id="drink-list">
+<div>
+  <header-bar></header-bar>
+    <div id="drink-list">
 
     <div class="form-check">
       <label class="form-check-label">
@@ -32,11 +34,12 @@
         </li>
       </template>
     </ul>
-
   </div>
+</div>
 </template>
 
 <script>
+import HeaderBar from '@/components/HeaderBar'
 import state from '@/components/shared'
 
 export default {
@@ -46,6 +49,9 @@ export default {
       state,
       showAll: false
     }
+  },
+  components: {
+    HeaderBar
   }
 }
 </script>

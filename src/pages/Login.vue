@@ -1,0 +1,54 @@
+<template>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Christmas Bar</h1> 
+      <p>Welcome to our Christmas drinks selector, please login by telling us your name.</p> 
+    </div>
+
+    <div id="logon-box">
+      <form v-on:submit.prevent="login">
+        <input type="text" v-model="name" required autofocus></input>
+        <input type="submit" class="btn" value="Login" ></input>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Login',
+  data: {
+    name: ''
+  },
+  methods: {
+    login () {
+      localStorage.setItem('name', this.name)
+      this.$router.push('/')
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss" scoped>
+  @import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+  #logon-box {
+    @media (min-width: $screen-md-min) {
+      width: 40%;
+      margin: auto;
+      text-align: right;
+    }
+  }
+  
+  #logon-box input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  #logon-box input[type="submit"] {
+    @media (max-width: $screen-md-min) {
+      width: 100%;
+    }
+  }
+</style>

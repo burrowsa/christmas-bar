@@ -1,4 +1,6 @@
 <template>
+<div>
+  <header-bar></header-bar>
   <div class="media">
     <div class="media-left">
       <img :src="state.drinks[drinkId].image" :alt="state.drinks[drinkId].name">
@@ -18,10 +20,12 @@
       {{ state.drinks[drinkId].description }}
     </div>
   </div>
+</div>
 </template>
 
 <script>
 import state from '@/components/shared'
+import HeaderBar from '@/components/HeaderBar'
 
 export default {
   name: 'Drink',
@@ -30,7 +34,10 @@ export default {
       state
     }
   },
-  props: ['drinkId']
+  props: ['drinkId'],
+  components: {
+    HeaderBar
+  }
 }
 </script>
 
