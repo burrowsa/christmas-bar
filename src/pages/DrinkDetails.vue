@@ -21,7 +21,7 @@
       </h6>
       {{ state.drinks[drinkId].description }}
       <div>
-      <DrinkButton :drinkId="drinkId"></DrinkButton>
+      <drink-button :drinkId="drinkId"></drink-button>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
-# secondvue
+# Christmas Bar
 
-> A Vue.js project
+> A Vue.js project to keep track of drinks order and stock levels at Christmas
 
 ## Build Setup
 

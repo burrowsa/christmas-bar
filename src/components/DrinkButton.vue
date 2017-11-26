@@ -11,6 +11,7 @@
 import {isOrdered, isAvailable, orderDrink, cancelDrink} from '@/components/shared'
 
 export default {
+  name: 'DrinkButton',
   props: [ 'drinkId' ],
   methods: {
     orderDrink,

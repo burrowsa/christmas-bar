@@ -27,7 +27,7 @@
             {{ drink.manufacturer }}
           </div>
           <div class="media-right">
-            <DrinkButton :drinkId="drinkId"></DrinkButton>
+            <drink-button :drinkId="drinkId"></drink-button>
           </div>
         </li>
       </template>
@@ -42,7 +42,7 @@ import DrinkButton from '@/components/DrinkButton'
 import {state, isOrdered} from '@/components/shared'
 
 export default {
-  name: 'Drink',
+  name: 'DrinkList',
   data () {
     return {
       state,

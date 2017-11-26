@@ -19,8 +19,10 @@ import {isButler} from '@/components/shared'
 
 export default {
   name: 'Login',
-  data: {
-    name: ''
+  data () {
+    return {
+      name: ''
+    }
   },
   methods: {
     login () {

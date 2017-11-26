@@ -59,7 +59,8 @@ export function getUserName () {
 }
 
 export function isButler () {
-  return getUserName().toLowerCase() === 'butler'
+  const userName = getUserName()
+  return userName != null && userName.toLowerCase() === 'butler'
 }
 
 export function isOrdered (drinkId) {
