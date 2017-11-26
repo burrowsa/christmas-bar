@@ -4,10 +4,11 @@ import DrinkList from '@/pages/DrinkList'
 import DrinkDetails from '@/pages/DrinkDetails'
 import Butler from '@/pages/Butler'
 import Login from '@/pages/Login'
+import {getUserName, isButler} from '@/components/shared'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/Login',
@@ -32,3 +33,13 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach(function (to, from, next) {
+  if ((to.path === '/butler' && !isButler()) || (to.path !== '/login' && getUserName() == null)) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
+export default router

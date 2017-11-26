@@ -18,11 +18,6 @@ import {getUserName, isButler} from '@/components/shared'
 
 export default {
   name: 'HeaderBar',
-  beforeMount () {
-    if (getUserName() == null) {
-      this.$router.push('/login')
-    }
-  },
   computed: {
     canLogout () {
       return getUserName() != null
