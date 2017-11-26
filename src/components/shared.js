@@ -51,8 +51,7 @@ export let state = {
       quantity: 6
     }
   },
-  orders: {
-  }
+  orders: {}
 }
 
 export function getUserName () {
@@ -68,8 +67,7 @@ export function isAvailable (drinkId) {
   return state.drinks[parseInt(drinkId)].quantity > 0
 }
 
-export function orderDrink (drinkId) {
-  const userName = getUserName()
+export function addOrder (userName, drinkId) {
   drinkId = parseInt(drinkId)
   let orders = [drinkId]
   if (userName in state.orders) {
@@ -77,11 +75,15 @@ export function orderDrink (drinkId) {
     orders.push(drinkId)
   }
   Vue.set(state.orders, userName, orders)
+}
+
+export function orderDrink (drinkId) {
+  const userName = getUserName()
+  addOrder(userName, drinkId)
   state.drinks[drinkId].quantity--
 }
 
-export function cancelDrink (drinkId) {
-  const userName = getUserName()
+export function removeOrder (userName, drinkId) {
   drinkId = parseInt(drinkId)
   const orders = state.orders[userName]
   const index = orders.indexOf(drinkId)
@@ -89,5 +91,10 @@ export function cancelDrink (drinkId) {
     orders.splice(index, 1)
   }
   Vue.set(state.orders, userName, orders)
+}
+
+export function cancelDrink (drinkId) {
+  const userName = getUserName()
+  removeOrder(userName, drinkId)
   state.drinks[drinkId].quantity++
 }

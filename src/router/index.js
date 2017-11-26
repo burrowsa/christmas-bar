@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import DrinkList from '@/pages/DrinkList'
 import DrinkDetails from '@/pages/DrinkDetails'
+import Butler from '@/pages/Butler'
 import Login from '@/pages/Login'
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       name: 'Drink',
       component: DrinkDetails,
       props: true
+    },
+    {
+      path: '/butler',
+      name: 'Butler',
+      component: Butler
     }
   ]
 })
