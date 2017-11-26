@@ -1,14 +1,20 @@
 <template>
   <div class="my-nav">
     <router-link to="/" class="brand">Christmas Bar</router-link>
-    <span class="right">{{ userName }}
+    <span class="right">
+    <template v-if="butler">
+      <router-link to="/butler">{{ userName }}</router-link>
+    </template>
+    <template v-else>
+      {{ userName }}
+    </template>
     <a href="#" class="right" v-on:click="logout" v-if="canLogout">[logout]</a>
     </span>
   </div>
 </template>
 
 <script>
-import {getUserName} from '@/components/shared'
+import {getUserName, isButler} from '@/components/shared'
 
 export default {
   beforeMount () {
@@ -22,6 +28,9 @@ export default {
     },
     userName () {
       return getUserName()
+    },
+    butler () {
+      return isButler()
     }
   },
   methods: {

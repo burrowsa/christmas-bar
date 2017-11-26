@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import {isButler} from '@/components/shared'
+
 export default {
   name: 'Login',
   data: {
@@ -23,7 +25,11 @@ export default {
   methods: {
     login () {
       localStorage.setItem('name', this.name)
-      this.$router.push('/')
+      if (isButler()) {
+        this.$router.push('/butler')
+      } else {
+        this.$router.push('/')
+      }
     }
   }
 }

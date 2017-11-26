@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h1><router-link to="/" class="brand">Christmas Bar</router-link></h1>
+  <header-bar></header-bar>
 
   <template v-for="orders, user in state.orders">
     <div v-if="orders.length > 0">
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import HeaderBar from '@/components/HeaderBar'
 import {state, removeOrder} from '@/components/shared'
 
 export default {
@@ -24,6 +25,9 @@ export default {
     return {
       state
     }
+  },
+  components: {
+    HeaderBar
   },
   methods: {
     removeOrder

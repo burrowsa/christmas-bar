@@ -14,6 +14,10 @@
       </h4>
       <h6>
         {{ state.drinks[drinkId].quantity }} remaining
+        <span v-if="isButler()">
+          <button v-on:click="state.drinks[drinkId].quantity++">+</button>
+          <button v-on:click="state.drinks[drinkId].quantity--">-</button>
+        </span>
       </h6>
       {{ state.drinks[drinkId].description }}
       <div>
@@ -25,7 +29,7 @@
 </template>
 
 <script>
-import {state} from '@/components/shared'
+import {state, isButler} from '@/components/shared'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 
@@ -40,6 +44,9 @@ export default {
   components: {
     HeaderBar,
     DrinkButton
+  },
+  methods: {
+    isButler
   }
 }
 </script>

@@ -58,13 +58,17 @@ export function getUserName () {
   return localStorage.getItem('name')
 }
 
+export function isButler () {
+  return getUserName().toLowerCase() === 'butler'
+}
+
 export function isOrdered (drinkId) {
   const userName = getUserName()
   return (userName in state.orders) && (state.orders[userName].includes(parseInt(drinkId)))
 }
 
 export function isAvailable (drinkId) {
-  return state.drinks[parseInt(drinkId)].quantity > 0
+  return (getUserName().toLowerCase() !== 'butler') && (state.drinks[parseInt(drinkId)].quantity > 0)
 }
 
 export function addOrder (userName, drinkId) {
