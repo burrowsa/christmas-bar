@@ -3,16 +3,23 @@
   <header-bar></header-bar>
   
   <div id="drink-list">
+    <select v-model="typeFilter" class="form-control">
+      <option value="">Any</option>
+      <option :value="drinkType" v-for="drinkType in drinkTypes">
+        {{ drinkType.replace(/\b\S/g, function(t) { return t.toUpperCase() }) /* Convert to title case */ }}
+      </option>
+    </select>
+  
     <div class="form-check">
       <label class="form-check-label">
         <input class="form-check-input" type="checkbox" v-model="showAll">
-        Show All
+        Show Out Of Stock Products
       </label>
     </div>
 
     <ul class="list-unstyled">
       <template v-for="(drink, drinkId) in state.drinks">
-        <li class="media mt-0" v-if="showAll || isAvailable(drinkId) || isOrdered(drinkId)">
+        <li class="media mt-0" v-if="(showAll || isAvailable(drinkId) || isOrdered(drinkId)) && (typeFilter==='' || typeFilter===drink.type)">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
               <img :src="drink.image" :alt="drink.name">
@@ -46,7 +53,8 @@ export default {
   data () {
     return {
       state,
-      showAll: false
+      showAll: false,
+      typeFilter: ''
     }
   },
   components: {
@@ -57,6 +65,15 @@ export default {
     isOrdered,
     getQuantityRemaining,
     isAvailable
+  },
+  computed: {
+    drinkTypes () {
+      const types = new Set()
+      for (var drinkId in state.drinks) {
+        types.add(state.drinks[drinkId].type)
+      }
+      return Array.from(types)
+    }
   }
 }
 </script>
