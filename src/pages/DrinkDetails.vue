@@ -14,18 +14,20 @@
       </h4>
       <h6>
         {{ state.drinks[drinkId].quantity }} remaining
-        <button v-on:click="state.drinks[drinkId].quantity++">+</button>
-        <button  v-on:click="state.drinks[drinkId].quantity--">-</button>
       </h6>
       {{ state.drinks[drinkId].description }}
+      <div>
+      <DrinkButton :drinkId="drinkId"></DrinkButton>
+      </div>
     </div>
   </div>
 </div>
 </template>
 
 <script>
-import state from '@/components/shared'
+import {state} from '@/components/shared'
 import HeaderBar from '@/components/HeaderBar'
+import DrinkButton from '@/components/DrinkButton'
 
 export default {
   name: 'Drink',
@@ -36,12 +38,39 @@ export default {
   },
   props: ['drinkId'],
   components: {
-    HeaderBar
+    HeaderBar,
+    DrinkButton
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-   @import 'DrinkDetails'
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+.media-left {
+  @media (min-width: $screen-md-min) {
+    width: auto;
+  }
+  width: 30%;
+}
+
+.media-left > img {
+  @media (min-width: $screen-md-min) {
+    width: auto;
+  }
+  width:100%;
+}
+
+.btn {
+  margin-top: 10px;
+  @media (min-width: $screen-md-min) {
+    width: 300px;
+  }
+  width: 90%;
+}
+
+.btn.selected {
+  background-color: pink;
+}
 </style>

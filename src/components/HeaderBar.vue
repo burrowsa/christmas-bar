@@ -8,18 +8,20 @@
 </template>
 
 <script>
+import {getUserName} from '@/components/shared'
+
 export default {
   beforeMount () {
-    if (localStorage.getItem('name') == null) {
+    if (getUserName() == null) {
       this.$router.push('/login')
     }
   },
   computed: {
     canLogout () {
-      return localStorage.getItem('name') != null
+      return getUserName() != null
     },
     userName () {
-      return localStorage.getItem('name')
+      return getUserName()
     }
   },
   methods: {

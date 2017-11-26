@@ -1,4 +1,6 @@
-export default {
+import Vue from 'vue'
+
+export let state = {
   drinks: {
     1: {
       name: 'Old Yummy Yum',
@@ -48,5 +50,44 @@ export default {
       image: '/static/img/champagne.png',
       quantity: 6
     }
+  },
+  orders: {
   }
+}
+
+export function getUserName () {
+  return localStorage.getItem('name')
+}
+
+export function isOrdered (drinkId) {
+  const userName = getUserName()
+  return (userName in state.orders) && (state.orders[userName].includes(parseInt(drinkId)))
+}
+
+export function isAvailable (drinkId) {
+  return state.drinks[parseInt(drinkId)].quantity > 0
+}
+
+export function orderDrink (drinkId) {
+  const userName = getUserName()
+  drinkId = parseInt(drinkId)
+  let orders = [drinkId]
+  if (userName in state.orders) {
+    orders = state.orders[userName]
+    orders.push(drinkId)
+  }
+  Vue.set(state.orders, userName, orders)
+  state.drinks[drinkId].quantity--
+}
+
+export function cancelDrink (drinkId) {
+  const userName = getUserName()
+  drinkId = parseInt(drinkId)
+  const orders = state.orders[userName]
+  const index = orders.indexOf(drinkId)
+  if (index > -1) {
+    orders.splice(index, 1)
+  }
+  Vue.set(state.orders, userName, orders)
+  state.drinks[drinkId].quantity++
 }
