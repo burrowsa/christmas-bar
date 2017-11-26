@@ -7,49 +7,50 @@ export let state = {
       manufacturer: 'Ancient Legends',
       type: 'beer',
       description: 'Brewed by bearded elves this is the tastiest beer ever invented. With flavours of fruits, chocolate and sausage.',
-      image: '/static/img/pint.png',
-      quantity: 10
+      image: '/static/img/pint.png'
     },
     2: {
       name: 'Unicorn Fart',
       manufacturer: 'Mysterious Bros',
       type: 'beer',
       description: 'With added unobtainium for a unique flavour.',
-      image: '/static/img/pint.png',
-      quantity: 0
+      image: '/static/img/pint.png'
     },
     3: {
       name: 'Hop Monster',
       manufacturer: 'Hipster Brews',
       type: 'beer',
       description: 'Made exclusively from hops, no malt, no wheat, no water!!',
-      image: '/static/img/pint.png',
-      quantity: 3
+      image: '/static/img/pint.png'
     },
     4: {
       name: 'Malbec',
       manufacturer: 'Argentina',
       type: 'red wine',
       description: 'Red wine',
-      image: '/static/img/redwine.png',
-      quantity: 3
+      image: '/static/img/redwine.png'
     },
     5: {
       name: 'Sauvignon Blanc',
       manufacturer: 'NZ',
       type: 'white wine',
       description: 'White wine',
-      image: '/static/img/whitewine.png',
-      quantity: 6
+      image: '/static/img/whitewine.png'
     },
     6: {
       name: 'Cava',
       manufacturer: 'Spain',
       type: 'sparkling wine',
       description: 'Sparkling wine',
-      image: '/static/img/champagne.png',
-      quantity: 6
+      image: '/static/img/champagne.png'
     }
+  },
+  quantities: {
+    1: 10,
+    2: 0,
+    4: 3,
+    5: 6,
+    6: 6
   },
   orders: {}
 }
@@ -68,8 +69,38 @@ export function isOrdered (drinkId) {
   return (userName in state.orders) && (state.orders[userName].includes(parseInt(drinkId)))
 }
 
+export function getQuantityRemaining (drinkId) {
+  drinkId = parseInt(drinkId)
+  if (drinkId in state.quantities) {
+    return state.quantities[drinkId]
+  } else {
+    return 0
+  }
+}
+
+export function setQuantityRemaining (drinkId, value) {
+  drinkId = parseInt(drinkId)
+  if (drinkId in state.quantities) {
+    state.quantities[drinkId] = value
+  } else {
+    Vue.set(state.quantities, drinkId, value)
+  }
+}
+
+export function incQuantityRemaining (drinkId) {
+  setQuantityRemaining(drinkId, getQuantityRemaining(drinkId) + 1)
+}
+
+export function decQuantityRemaining (drinkId) {
+  setQuantityRemaining(drinkId, getQuantityRemaining(drinkId) - 1)
+}
+
 export function isAvailable (drinkId) {
-  return (getUserName().toLowerCase() !== 'butler') && (state.drinks[parseInt(drinkId)].quantity > 0)
+  return getQuantityRemaining(drinkId) > 0
+}
+
+export function showButton (drinkId) {
+  return (getUserName().toLowerCase() !== 'butler') && isAvailable(drinkId)
 }
 
 export function addOrder (userName, drinkId) {
@@ -85,7 +116,7 @@ export function addOrder (userName, drinkId) {
 export function orderDrink (drinkId) {
   const userName = getUserName()
   addOrder(userName, drinkId)
-  state.drinks[drinkId].quantity--
+  decQuantityRemaining(drinkId)
 }
 
 export function removeOrder (userName, drinkId) {
@@ -101,5 +132,5 @@ export function removeOrder (userName, drinkId) {
 export function cancelDrink (drinkId) {
   const userName = getUserName()
   removeOrder(userName, drinkId)
-  state.drinks[drinkId].quantity++
+  incQuantityRemaining(drinkId)
 }

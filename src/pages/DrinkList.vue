@@ -12,7 +12,7 @@
 
     <ul class="list-unstyled">
       <template v-for="(drink, drinkId) in state.drinks">
-        <li class="media mt-0" v-if="showAll || (drink.quantity > 0) || isOrdered(drinkId)">
+        <li class="media mt-0" v-if="showAll || isAvailable(drinkId) || isOrdered(drinkId)">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
               <img :src="drink.image" :alt="drink.name">
@@ -21,7 +21,7 @@
           <div class="media-body">
             <h3 class="media-heading">
               <router-link :to="`/drink/${drinkId}`">
-                {{ drink.name }} ({{ drink.quantity }})
+                {{ drink.name }} ({{ getQuantityRemaining(drinkId) }})
               </router-link>
             </h3>
             {{ drink.manufacturer }}
@@ -39,7 +39,7 @@
 <script>
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
-import {state, isOrdered} from '@/components/shared'
+import {state, isOrdered, getQuantityRemaining, isAvailable} from '@/components/shared'
 
 export default {
   name: 'DrinkList',
@@ -54,7 +54,9 @@ export default {
     DrinkButton
   },
   methods: {
-    isOrdered
+    isOrdered,
+    getQuantityRemaining,
+    isAvailable
   }
 }
 </script>

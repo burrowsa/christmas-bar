@@ -2,13 +2,13 @@
   <button class="btn selected" v-on:click="cancelDrink(drinkId)" v-if="isOrdered(drinkId)">
     Cancel
   </button>
-  <button class="btn" v-on:click="orderDrink(drinkId)" v-else-if="isAvailable(drinkId)">
+  <button class="btn" v-on:click="orderDrink(drinkId)" v-else-if="showButton(drinkId)">
     Drink
   </button>
 </template>
 
 <script>
-import {isOrdered, isAvailable, orderDrink, cancelDrink} from '@/components/shared'
+import {isOrdered, showButton, orderDrink, cancelDrink} from '@/components/shared'
 
 export default {
   name: 'DrinkButton',
@@ -17,7 +17,7 @@ export default {
     orderDrink,
     cancelDrink,
     isOrdered,
-    isAvailable
+    showButton
   }
 }
 </script>
