@@ -7,7 +7,9 @@
       <h2>{{user}}</h2}
       <ul>
         <li v-for="drinkId in orders">
-          {{ state.drinks[drinkId].name }} <button v-on:click="removeOrder(user, drinkId)">[X]</button>
+          {{ state.drinks[drinkId].name }}
+          <button v-on:click="removeOrder(user, drinkId)">[/]</button>
+          <button v-on:click="cancelDrinkForUser(user, drinkId)">[X]</button>
         </li>
       </ul>
     </div>
@@ -17,7 +19,7 @@
 
 <script>
 import HeaderBar from '@/components/HeaderBar'
-import {state, removeOrder} from '@/components/shared'
+import {state, removeOrder, cancelDrinkForUser} from '@/components/shared'
 
 export default {
   name: 'Butler',
@@ -30,7 +32,8 @@ export default {
     HeaderBar
   },
   methods: {
-    removeOrder
+    removeOrder,
+    cancelDrinkForUser
   }
 }
 </script>
