@@ -46,11 +46,16 @@ function loadOrders () {
 }
 
 function loadQuantitiesAndOrders () {
-  return loadQuantities().then(loadOrders)
+  const p1 = loadQuantities()
+  const p2 = loadOrders()
+  Promise.all([p1, p2]).catch(console.error)
 }
 
 function loadEverything () {
-  return loadDrinks().then(loadQuantitiesAndOrders)
+  const p1 = loadQuantities()
+  const p2 = loadOrders()
+  const p3 = loadDrinks()
+  Promise.all([p1, p2, p3]).catch(console.error)
 }
 
 function writeQuantities (data) {
@@ -61,9 +66,9 @@ function writeOrders (data) {
   return s3PutObject('orders.json', emitJSON(data))
 }
 
-loadEverything().catch(console.log)
+loadEverything()
 
-setInterval(function () { loadQuantitiesAndOrders().catch(console.log) }, 500)
+setInterval(loadQuantitiesAndOrders, 500)
 
 export let state = {
   drinks: {},
@@ -93,7 +98,7 @@ export function getQuantityRemaining (drinkId) {
   }
 }
 
-export function setQuantityRemaining (drinkId, value) {
+function setQuantityRemaining (drinkId, value) {
   var quantitiesCopy = Object.assign({}, state.quantities)
   quantitiesCopy[drinkId] = value
   return writeQuantities(quantitiesCopy).then(loadQuantities)
@@ -115,7 +120,7 @@ export function showButton (drinkId) {
   return (getUserName().toLowerCase() !== 'butler') && isAvailable(drinkId)
 }
 
-export function addOrder (userName, drinkId) {
+function addOrder (userName, drinkId) {
   var ordersCopy = Object.assign({}, state.orders)
   if (userName in ordersCopy) {
     ordersCopy[userName].push(drinkId)
@@ -129,7 +134,7 @@ export function orderDrink (drinkId) {
   const userName = getUserName()
   var p1 = addOrder(userName, drinkId)
   var p2 = decQuantityRemaining(drinkId)
-  Promise.all([p1, p2]).catch(console.log)
+  Promise.all([p1, p2]).catch(console.error)
 }
 
 function removeOrder (userName, drinkId) {
@@ -148,7 +153,7 @@ export function fulfilOrder (userName, drinkId) {
 export function cancelDrinkForUser (userName, drinkId) {
   var p1 = removeOrder(userName, drinkId)
   var p2 = incQuantityRemaining(drinkId)
-  Promise.all([p1, p2]).catch(console.log)
+  Promise.all([p1, p2]).catch(console.error)
 }
 
 export function cancelDrink (drinkId) {
