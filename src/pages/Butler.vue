@@ -6,7 +6,7 @@
       <div v-if="orders.length > 0">
         <h2>{{user}}</h2>
         <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action" v-for="drinkId in orders" v-on:click="removeOrder(user, drinkId)">
+          <a href="#" class="list-group-item list-group-item-action" v-for="drinkId in orders" v-on:click="fulfilOrder(user, drinkId)">
             <span>{{ state.drinks[drinkId].name }}</span>
             <button class="btn btn-default pull-right" v-on:click="cancelDrinkForUser(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
           </a>
@@ -19,7 +19,7 @@
 
 <script>
 import HeaderBar from '@/components/HeaderBar'
-import {state, removeOrder, cancelDrinkForUser} from '@/components/shared'
+import {state, fulfilOrder, cancelDrinkForUser} from '@/components/shared'
 
 export default {
   name: 'Butler',
@@ -32,7 +32,7 @@ export default {
     HeaderBar
   },
   methods: {
-    removeOrder,
+    fulfilOrder,
     cancelDrinkForUser
   }
 }

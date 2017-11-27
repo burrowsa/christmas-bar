@@ -132,13 +132,17 @@ export function orderDrink (drinkId) {
   Promise.all([p1, p2]).catch(console.log)
 }
 
-export function removeOrder (userName, drinkId) {
+function removeOrder (userName, drinkId) {
   var ordersCopy = Object.assign({}, state.orders)
   const index = ordersCopy[userName].indexOf(drinkId)
   if (index > -1) {
     ordersCopy[userName].splice(index, 1)
   }
   return writeOrders(ordersCopy).then(loadOrders)
+}
+
+export function fulfilOrder (userName, drinkId) {
+  removeOrder(userName, drinkId).catch(console.error)
 }
 
 export function cancelDrinkForUser (userName, drinkId) {
