@@ -2,7 +2,7 @@
   <div class="container">
     <div class="jumbotron">
       <h1><span class="glyphicon glyphicon-tree-conifer"></span><span class="glyphicon glyphicon-glass"></span> Christmas Bar</h1> 
-      <p>Welcome to our Christmas drinks selector, please login by telling us your name.</p> 
+      <p>Welcome to the Christmas drinks selector, please login by telling me your name.</p> 
     </div>
 
     <div id="logon-box">
