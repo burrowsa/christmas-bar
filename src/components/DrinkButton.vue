@@ -1,8 +1,8 @@
 <template>
-  <button class="btn selected" v-on:click="cancelDrink(drinkId)" v-if="isOrdered(drinkId)">
+  <button class="btn btn-default selected" v-on:click="cancelDrink(drinkId)" v-if="isOrdered(drinkId)">
     Cancel
   </button>
-  <button class="btn" v-on:click="orderDrink(drinkId)" v-else-if="showButton(drinkId)">
+  <button class="btn btn-default" v-on:click="orderDrink(drinkId)" v-else-if="showButton(drinkId)">
     Drink
   </button>
 </template>

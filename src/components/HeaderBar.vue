@@ -1,14 +1,15 @@
 <template>
   <div class="my-nav">
-    <router-link to="/" class="brand">Christmas Bar</router-link>
+    <router-link to="/" class="brand"><span class="glyphicon glyphicon-tree-conifer"></span><span class="glyphicon glyphicon-glass"></span></router-link>
     <span class="right">
-    <template v-if="butler">
-      <router-link to="/butler">{{ userName }}</router-link>
-    </template>
-    <template v-else>
-      {{ userName }}
-    </template>
-    <a href="#" class="right" v-on:click="logout" v-if="canLogout">[logout]</a>
+      <template v-if="butler">
+        <router-link to="/butler" class="right">{{ userName }}</router-link>
+      </template>
+      <template v-else>
+        {{ userName }}
+      </template>
+      
+      <span class="glyphicon glyphicon-log-out" v-on:click="logout"></span>
     </span>
   </div>
 </template>

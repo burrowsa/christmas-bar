@@ -1,19 +1,19 @@
 <template>
 <div>
   <header-bar></header-bar>
-
-  <template v-for="orders, user in state.orders">
-    <div v-if="orders.length > 0">
-      <h2>{{user}}</h2}
-      <ul>
-        <li v-for="drinkId in orders">
-          {{ state.drinks[drinkId].name }}
-          <button v-on:click="removeOrder(user, drinkId)">[/]</button>
-          <button v-on:click="cancelDrinkForUser(user, drinkId)">[X]</button>
-        </li>
-      </ul>
-    </div>
-  </template>
+  <div class="container">
+    <template v-for="orders, user in state.orders">
+      <div v-if="orders.length > 0">
+        <h2>{{user}}</h2>
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action" v-for="drinkId in orders" v-on:click="removeOrder(user, drinkId)">
+            <span>{{ state.drinks[drinkId].name }}</span>
+            <button class="btn btn-default pull-right" v-on:click="cancelDrinkForUser(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
+          </a>
+        </div>
+      </div>
+    </template>
+  </div>
 </div>
 </template>
 
@@ -40,4 +40,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+.list-group-item {
+  @media (min-width: $screen-md-min) {
+    width: 30%;
+  }
+}
+
+.btn {
+  position: relative;
+  top: -0.5em;
+  left: 0.9em;
+  background-color: crimson;
+  color: white;
+}
+
 </style>

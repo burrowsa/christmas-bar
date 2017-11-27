@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="jumbotron">
-      <h1>Christmas Bar</h1> 
+      <h1><span class="glyphicon glyphicon-tree-conifer"></span><span class="glyphicon glyphicon-glass"></span> Christmas Bar</h1> 
       <p>Welcome to our Christmas drinks selector, please login by telling us your name.</p> 
     </div>
 
     <div id="logon-box">
       <form v-on:submit.prevent="login">
         <input type="text" v-model="name" required autofocus></input>
-        <input type="submit" class="btn" value="Login" ></input>
+        <input type="submit" class="btn btn-default" value="Login" ></input>
       </form>
     </div>
   </div>

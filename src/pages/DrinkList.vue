@@ -28,8 +28,9 @@
           <div class="media-body">
             <h3 class="media-heading">
               <router-link :to="`/drink/${drinkId}`">
-                {{ drink.name }} ({{ getQuantityRemaining(drinkId) }})
+                {{ drink.name }}
               </router-link>
+              <span class="badge badge-primary badge-pill">{{ getQuantityRemaining(drinkId) }}</span>
             </h3>
             {{ drink.manufacturer }}
           </div>
