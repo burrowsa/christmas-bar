@@ -14,10 +14,7 @@
       </h4>
       <h6>
         {{ state.quantities[drinkId] || 0 }} remaining
-        <span v-if="isButler()">
-          <button v-on:click="adjustQuantity(drinkId, 1)">+</button>
-          <button v-on:click="adjustQuantity(drinkId, -1)">-</button>
-        </span>
+        <stock-adjust :drinkId="drinkId"></stock-adjust>
       </h6>
       {{ state.drinks[drinkId].description }}
       <div>
@@ -29,9 +26,10 @@
 </template>
 
 <script>
-import {state, isButler, socket} from '@/components/shared'
+import {state} from '@/components/shared'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
+import StockAdjust from '@/components/StockAdjust'
 
 export default {
   name: 'Drink',
@@ -43,13 +41,8 @@ export default {
   props: ['drinkId'],
   components: {
     HeaderBar,
-    DrinkButton
-  },
-  methods: {
-    isButler,
-    adjustQuantity (drinkId, delta) {
-      socket.emit('adjust_quantity', {drinkId, delta})
-    }
+    DrinkButton,
+    StockAdjust
   }
 }
 </script>

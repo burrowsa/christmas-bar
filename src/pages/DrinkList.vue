@@ -33,6 +33,7 @@
               <span class="badge badge-primary badge-pill">{{ state.quantities[drinkId] || 0 }}</span>
             </h3>
             {{ drink.manufacturer }}
+            <stock-adjust :drinkId="drinkId"></stock-adjust>
           </div>
           <div class="media-right">
             <drink-button :drinkId="drinkId"></drink-button>
@@ -47,6 +48,7 @@
 <script>
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
+import StockAdjust from '@/components/StockAdjust'
 import {state, getUserName} from '@/components/shared'
 
 export default {
@@ -60,7 +62,8 @@ export default {
   },
   components: {
     HeaderBar,
-    DrinkButton
+    DrinkButton,
+    StockAdjust
   },
   methods: {
     isOrdered (drinkId) {
