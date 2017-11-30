@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, send_file
+from flask import Flask, send_file, request
 from flask_socketio import SocketIO, emit, disconnect
 
 
@@ -132,7 +132,13 @@ def v1_adjust_quantity(message):
 @socketio.on('connect', namespace='/v1')
 def v1_connect():
   emit_data(orders=True, quantities=True, drinks=True)
-  
+
+
+@socketio.on_error('/v1') # handles the '/chat' namespace
+def v1_error_handler(e):
+  request.event
+  emit('error', "An error occured on {}".format(request.event["message"]))
+
 
 if __name__ == '__main__':
   socketio.run(app, debug=True)

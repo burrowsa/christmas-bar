@@ -1,5 +1,5 @@
 <template>
-  <div class="my-nav">
+  <div :class="headerStyle">
     <router-link to="/" class="brand"><span class="glyphicon glyphicon-tree-conifer"></span><span class="glyphicon glyphicon-glass"></span></router-link>
     <span class="right">
       <template v-if="butler">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {getUserName, isButler} from '@/components/shared'
+import {state, getUserName, isButler} from '@/components/shared'
 
 export default {
   name: 'HeaderBar',
@@ -28,6 +28,13 @@ export default {
     },
     butler () {
       return isButler()
+    },
+    headerStyle () {
+      if (state.connected) {
+        return 'my-nav my-nav-norm'
+      } else {
+        return 'my-nav my-nav-err'
+      }
     }
   },
   methods: {
@@ -41,20 +48,35 @@ export default {
 
 <style lang="scss" scoped>
   .my-nav {
-    background-color: #333;
     padding: 10px;
     margin-bottom: 10px;
-    color: white;
     font-size: 1.4em;
-    font-weight: bolder;   
+    font-weight: bolder;
+  }
+  
+  .my-nav-norm {
+    background-color: #333;
+    color: white;
+  }
+  
+  .my-nav-err {
+    background-color: red;
+    color: black;
   }
   
   .my-nav a {
     display: inline-block;
     text-decoration: none;
-    color: white;
     font-weight: lighter;
     margin-right: 30px;
+  }
+  
+  .my-nav-norm a {
+      color: white;
+  }
+  
+  .my-nav-err a {
+    color: black;
   }
   
   .my-nav > .brand {

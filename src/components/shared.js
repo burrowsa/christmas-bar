@@ -2,7 +2,13 @@ import Vue from 'vue'
 
 import io from 'socket.io-client'
 
-export const socket = io(location.protocol + '//' + document.domain + ':' + location.port + '/v1')
+let socketURL = location.protocol + '//' + document.domain + ':' + location.port + '/v1'
+
+if (process.env.NODE_ENV === 'development') {
+  socketURL = 'http://localhost:5050/v1'
+}
+
+export const socket = io(socketURL)
 
 socket.on('update', function (msg) {
   if (msg.drinks != null) {
@@ -16,10 +22,26 @@ socket.on('update', function (msg) {
   }
 })
 
+socket.on('error', function (msg) {
+  Vue.toast(msg, {
+    className: 'et-alert',
+    horizontalPosition: 'center'
+  })
+})
+
+socket.on('disconnect', function () {
+  state.connected = false
+})
+
+socket.on('connect', function () {
+  state.connected = true
+})
+
 export const state = {
   drinks: {},
   quantities: {},
-  orders: {}
+  orders: {},
+  connected: false
 }
 
 export function getUserName () {
