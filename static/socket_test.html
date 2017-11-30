@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Flask-SocketIO Test</title>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + '/v1');
+
+            socket.on('update', function(msg) {
+                $('#log').append('<br>' + $('<div/>').text('Update: ' + JSON.stringify(msg)).html());
+            });
+
+
+            $('form#place').submit(function(event) {
+                socket.emit('place_order', {username: $('form#place > input[name="username"]').val(),
+                                            drinkId: $('form#place > input[name="drinkId"]').val() });
+                return false;
+            });
+
+            $('form#cancel').submit(function(event) {
+                socket.emit('cancel_order', {username: $('form#cancel > input[name="username"]').val(),
+                                             drinkId: $('form#cancel > input[name="drinkId"]').val() });
+                return false;
+            });
+
+            $('form#fulfil').submit(function(event) {
+                socket.emit('fulfil_order', {username: $('form#fulfil > input[name="username"]').val(),
+                                             drinkId: $('form#fulfil > input[name="drinkId"]').val() });
+                return false;
+            });
+
+            $('form#adjust').submit(function(event) {
+                socket.emit('adjust_quantity', {delta: $('form#adjust > input[name="delta"]').val(),
+                                                drinkId: $('form#adjust > input[name="drinkId"]').val() });
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="width: 50%; float:left;">
+    <h1>Sleigh Test Page</h1>
+    <h2>Send:</h2>
+
+	<h3>Place Order</h3>
+	<form id="place" method="POST" action='#'>
+        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="drinkId" placeholder="DrinkId">
+        <input type="submit" value="Place">
+    </form>
+
+    <h3>Cancel Order</h3>
+    <form id="cancel" method="POST" action='#'>
+        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="drinkId" placeholder="DrinkId">
+        <input type="submit" value="Cancel">
+    </form>
+
+    <h3>Fulfil Order</h3>
+    <form id="fulfil" method="POST" action='#'>
+        <input type="text" name="username" placeholder="Username">
+        <input type="text" name="drinkId" placeholder="DrinkId">
+        <input type="submit" value="Fulfill">
+    </form>
+
+	<h3>Adjust Quantity</h3>
+    <form id="adjust" method="POST" action='#'>
+        <input type="text" name="drinkId" placeholder="DrinkId">
+        <input type="text" name="delta" placeholder="Delta">
+        <input type="submit" value="Adjust">
+    </form>
+	</div>
+
+	<div style="width: 50%; float:right;">
+    <h2>Receive:</h2>
+    <div id="log"></div>
+    </div>
+</body>
+</html>

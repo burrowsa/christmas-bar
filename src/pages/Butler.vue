@@ -8,7 +8,7 @@
         <div class="list-group">
           <a href="#" class="list-group-item list-group-item-action" v-for="drinkId in orders" v-on:click="fulfilOrder(user, drinkId)">
             <span>{{ state.drinks[drinkId].name }}</span>
-            <button class="btn btn-default pull-right" v-on:click="cancelDrinkForUser(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
+            <button class="btn btn-default pull-right" v-on:click="cancelOrder(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
           </a>
         </div>
       </div>
@@ -19,7 +19,7 @@
 
 <script>
 import HeaderBar from '@/components/HeaderBar'
-import {state, fulfilOrder, cancelDrinkForUser} from '@/components/shared'
+import {state, socket} from '@/components/shared'
 
 export default {
   name: 'Butler',
@@ -32,8 +32,12 @@ export default {
     HeaderBar
   },
   methods: {
-    fulfilOrder,
-    cancelDrinkForUser
+    fulfilOrder (username, drinkId) {
+      socket.emit('fulfil_order', {username, drinkId})
+    },
+    cancelOrder (username, drinkId) {
+      socket.emit('cancel_order', {username, drinkId})
+    }
   }
 }
 </script>

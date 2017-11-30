@@ -13,10 +13,10 @@
         {{ state.drinks[drinkId].manufacturer }}
       </h4>
       <h6>
-        {{ getQuantityRemaining(drinkId) }} remaining
+        {{ state.quantities[drinkId] || 0 }} remaining
         <span v-if="isButler()">
-          <button v-on:click="incQuantityRemaining(drinkId)">+</button>
-          <button v-on:click="decQuantityRemaining(drinkId)">-</button>
+          <button v-on:click="adjustQuantity(drinkId, 1)">+</button>
+          <button v-on:click="adjustQuantity(drinkId, -1)">-</button>
         </span>
       </h6>
       {{ state.drinks[drinkId].description }}
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {state, isButler, getQuantityRemaining, incQuantityRemaining, decQuantityRemaining} from '@/components/shared'
+import {state, isButler, socket} from '@/components/shared'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 
@@ -47,9 +47,9 @@ export default {
   },
   methods: {
     isButler,
-    getQuantityRemaining,
-    incQuantityRemaining,
-    decQuantityRemaining
+    adjustQuantity (drinkId, delta) {
+      socket.emit('adjust_quantity', {drinkId, delta})
+    }
   }
 }
 </script>
