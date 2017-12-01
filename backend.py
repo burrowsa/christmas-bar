@@ -129,6 +129,22 @@ def v1_adjust_quantity(message):
   emit_data(quantities=True, broadcast=True)
 
 
+@socketio.on('reload_drink', namespace='/v1')
+def v1_reload_drink(message):
+  drink_id = message["drinkId"]
+  emit('update_drink', {drink_id: _drinks[drink_id]})
+
+
+@socketio.on('save_drink', namespace='/v1')
+def v1_save_drink(message):
+  assert len(message.keys()) == 1
+  
+  drink_id = list(message.keys())[0]
+  _drinks[drink_id] = message[drink_id]
+  
+  emit('update_drink', {drink_id: _drinks[drink_id]}, broadcast=True)
+
+
 @socketio.on('connect', namespace='/v1')
 def v1_connect():
   emit_data(orders=True, quantities=True, drinks=True)
@@ -136,8 +152,9 @@ def v1_connect():
 
 @socketio.on_error('/v1') # handles the '/chat' namespace
 def v1_error_handler(e):
-  request.event
   emit('error', "An error occured on {}".format(request.event["message"]))
+  print(type(e))
+  print(e)
 
 
 if __name__ == '__main__':

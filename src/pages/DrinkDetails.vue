@@ -19,6 +19,7 @@
       {{ state.drinks[drinkId].description }}
       <div>
       <drink-button :drinkId="drinkId"></drink-button>
+      <router-link :to="`/butler/edit/${drinkId}`" class="btn btn-default" v-if="isButler()">Edit</router-link>
       </div>
     </div>
   </div>
@@ -26,7 +27,7 @@
 </template>
 
 <script>
-import {state} from '@/components/shared'
+import {state, isButler} from '@/components/shared'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 import StockAdjust from '@/components/StockAdjust'
@@ -43,6 +44,9 @@ export default {
     HeaderBar,
     DrinkButton,
     StockAdjust
+  },
+  methods: {
+    isButler
   }
 }
 </script>

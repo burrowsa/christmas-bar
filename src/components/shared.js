@@ -22,6 +22,12 @@ socket.on('update', function (msg) {
   }
 })
 
+socket.on('update_drink', function (msg) {
+  for (let [key, value] of Object.entries(msg)) {
+    Vue.set(state.drinks, key, value)
+  }
+})
+
 socket.on('error', function (msg) {
   Vue.toast(msg, {
     className: 'et-alert',

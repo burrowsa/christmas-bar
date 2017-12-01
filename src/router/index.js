@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import DrinkList from '@/pages/DrinkList'
 import DrinkDetails from '@/pages/DrinkDetails'
+import DrinkEditDetails from '@/pages/DrinkEditDetails'
 import Butler from '@/pages/Butler'
 import Login from '@/pages/Login'
 import {getUserName, isButler} from '@/components/shared'
@@ -27,6 +28,12 @@ const router = new Router({
       props: true
     },
     {
+      path: '/butler/edit/:drinkId',
+      name: 'EditDrink',
+      component: DrinkEditDetails,
+      props: true
+    },
+    {
       path: '/butler',
       name: 'Butler',
       component: Butler
@@ -35,7 +42,7 @@ const router = new Router({
 })
 
 router.beforeEach(function (to, from, next) {
-  if ((to.path === '/butler' && !isButler()) || (to.path !== '/login' && getUserName() == null)) {
+  if ((to.path.startsWith('/butler') && !isButler()) || (to.path !== '/login' && getUserName() == null)) {
     next('/login')
   } else {
     next()

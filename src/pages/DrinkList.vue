@@ -1,7 +1,7 @@
 <template>
 <div>
   <header-bar></header-bar>
-  
+
   <div id="drink-list">
     <select v-model="typeFilter" class="form-control">
       <option value="">Any</option>
@@ -9,7 +9,7 @@
         {{ drinkType.replace(/\b\S/g, function(t) { return t.toUpperCase() }) /* Convert to title case */ }}
       </option>
     </select>
-  
+
     <div class="form-check">
       <label class="form-check-label">
         <input class="form-check-input" type="checkbox" v-model="showAll">
@@ -37,6 +37,7 @@
           </div>
           <div class="media-right">
             <drink-button :drinkId="drinkId"></drink-button>
+            <button v-on:click="$router.push(`/butler/edit/${drinkId}`)" class="btn btn-default" v-if="isButler()">Edit</button>
           </div>
         </li>
       </template>
@@ -49,7 +50,7 @@
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 import StockAdjust from '@/components/StockAdjust'
-import {state, getUserName} from '@/components/shared'
+import {state, getUserName, isButler} from '@/components/shared'
 
 export default {
   name: 'DrinkList',
@@ -66,6 +67,7 @@ export default {
     StockAdjust
   },
   methods: {
+    isButler,
     isOrdered (drinkId) {
       return (state.orders[getUserName()] || []).includes(drinkId)
     }
@@ -87,7 +89,7 @@ export default {
 @import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
 
 #drink-list {
-  @media (min-width: $screen-md-min) {
+  @media (min-width:screen-md-min) {
     width: 50%;
     margin: auto;
   }
@@ -100,7 +102,7 @@ export default {
 }
 
 #drink-list > ul > li {
-  border-top: 1px solid $table-border-color;
+  border-top: 1px solidtable-border-color;
   padding-top: 1%;
 }
 
