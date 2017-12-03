@@ -23,6 +23,7 @@
       <div>
       <drink-button :drinkId="drinkId"></drink-button>
       <router-link :to="`/butler/edit/${drinkId}`" class="btn btn-default" v-if="isButler()">Edit</router-link>
+      <button class="btn btn-default" v-if="isButler()" v-on:click="deleteDrink">Delete</button>
       </div>
     </div>
   </div>
@@ -30,7 +31,7 @@
 </template>
 
 <script>
-import {state, isButler} from '@/components/shared'
+import {state, isButler, socket} from '@/components/shared'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 import StockAdjust from '@/components/StockAdjust'
@@ -49,7 +50,17 @@ export default {
     StockAdjust
   },
   methods: {
-    isButler
+    isButler,
+    deleteDrink () {
+      if (confirm('Are you sure?') === true) {
+        socket.emit('delete_drink', {drinkId: this.drinkId})
+      }
+    }
+  },
+  updated: function () {
+    if (!state.drinks[this.drinkId]) {
+      this.$router.push(`/`)
+    }
   }
 }
 </script>

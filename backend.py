@@ -132,7 +132,10 @@ def v1_adjust_quantity(message):
 @socketio.on('reload_drink', namespace='/v1')
 def v1_reload_drink(message):
   drink_id = message["drinkId"]
-  emit('update_drink', {drink_id: _drinks[drink_id]})
+  if drink_id in _drinks:
+    emit('update_drink', {drink_id: _drinks[drink_id]})
+  else:
+    emit('remove_drink', dict(drinkId=drink_id))
 
 
 @socketio.on('save_drink', namespace='/v1')
@@ -143,6 +146,15 @@ def v1_save_drink(message):
   _drinks[drink_id] = message[drink_id]
   
   emit('update_drink', {drink_id: _drinks[drink_id]}, broadcast=True)
+
+
+@socketio.on('delete_drink', namespace='/v1')
+def v1_delete_drink(message):
+  drink_id = message["drinkId"]
+  
+  if drink_id in _drinks:
+    del _drinks[drink_id]
+    emit('remove_drink', dict(drinkId=drink_id), broadcast=True)
 
 
 @socketio.on('connect', namespace='/v1')

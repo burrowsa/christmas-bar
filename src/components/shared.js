@@ -28,6 +28,10 @@ socket.on('update_drink', function (msg) {
   }
 })
 
+socket.on('remove_drink', function (msg) {
+  Vue.delete(state.drinks, msg.drinkId)
+})
+
 socket.on('error', function (msg) {
   Vue.toast(msg, {
     className: 'et-alert',
