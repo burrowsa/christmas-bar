@@ -1,66 +1,28 @@
 #!/usr/bin/env python
 from flask import Flask, send_file, request
 from flask_socketio import SocketIO, emit, disconnect
+import pickle, os, sys
 
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = b"^\x96\xf2\xbeH\xef='T\xf7<\xe8h\xc8\xa8g\x9c\xb1\x86\x84\xf3w\x15W"
-socketio = SocketIO(app, async_mode=None)
+app = Flask(__name__) 
+app.config['SECRET_KEY'] = b"^\x96\xf2\xbeH\xef='T\xf7<\xe8h\xc8\xa8g\x9c\xb1\x86\x84\xf3w\x15W" 
+socketio = SocketIO(app, async_mode=None) 
+DATA_PATH = '/data/xmasbar.pckl' 
+_drinks, _orders, _quantities = {}, {}, {}
 
 
-_drinks = {
-  '1': {
-  'name': 'Old Yummy Yum',
-  'manufacturer': 'Ancient Legends',
-  'type': 'beer',
-  'description': 'Brewed by bearded elves this is the tastiest beer ever invented. With flavours of fruits, chocolate and sausage.',
-  'image': '/static/img/pint.png'
-  },
-  '2': {
-  'name': 'Unicorn Fart',
-  'manufacturer': 'Mysterious Bros',
-  'type': 'beer',
-  'description': 'With added unobtainium for a unique flavour.',
-  'image': '/static/img/pint.png'
-  },
-  '3': {
-  'name': 'Hop Monster',
-  'manufacturer': 'Hipster Brews',
-  'type': 'beer',
-  'description': 'Made exclusively from hops, no malt, no wheat, no water!!',
-  'image': '/static/img/pint.png'
-  },
-  '4': {
-  'name': 'Malbec',
-  'manufacturer': 'Argentina',
-  'type': 'red wine',
-  'description': 'Red wine',
-  'image': '/static/img/redwine.png'
-  },
-  '5': {
-  'name': 'Sauvignon Blanc',
-  'manufacturer': 'NZ',
-  'type': 'white wine',
-  'description': 'White wine',
-  'image': '/static/img/whitewine.png'
-  },
-  '6': {
-  'name': 'Cava',
-  'manufacturer': 'Spain',
-  'type': 'sparkling wine',
-  'description': 'Sparkling wine',
-  'image': '/static/img/champagne.png'
-  }
-}
+if os.path.exists(DATA_PATH):
+  with open(DATA_PATH, 'rb') as f:
+    _drinks, _orders, _quantities = pickle.load(f)
 
-_orders = {}
 
-_quantities = {
-  "1": 4,
-  "2": 0,
-  "5": 2,
-  "6": 1
-}
+def store_data(fn):
+  def _store_data(*args, **kwargs):
+    retval = fn(*args, **kwargs)
+    with open(DATA_PATH, 'wb') as f:
+      pickle.dump((_drinks, _orders, _quantities), f)
+    return retval
+  return _store_data
 
 
 @app.route('/')
@@ -81,6 +43,7 @@ def emit_data(orders=False, quantities=False, drinks=False, broadcast=False):
 
 
 @socketio.on('place_order', namespace='/v1')
+@store_data
 def v1_place_order(message):
   username = message["username"]
   drink_id = message["drinkId"]
@@ -95,6 +58,7 @@ def v1_place_order(message):
 
 
 @socketio.on('cancel_order', namespace='/v1')
+@store_data
 def v1_cancel_order(message):
   username = message["username"]
   drink_id = message["drinkId"]
@@ -108,6 +72,7 @@ def v1_cancel_order(message):
 
 
 @socketio.on('fulfil_order', namespace='/v1')
+@store_data
 def v1_fulfil_order(message):
   username = message["username"]
   drink_id = message["drinkId"]
@@ -120,6 +85,7 @@ def v1_fulfil_order(message):
 
 
 @socketio.on('adjust_quantity', namespace='/v1')
+@store_data
 def v1_adjust_quantity(message):
   drink_id = message["drinkId"]
   delta = int(message["delta"])
@@ -139,6 +105,7 @@ def v1_reload_drink(message):
 
 
 @socketio.on('save_drink', namespace='/v1')
+@store_data
 def v1_save_drink(message):
   assert len(message.keys()) == 1
   
@@ -149,6 +116,7 @@ def v1_save_drink(message):
 
 
 @socketio.on('delete_drink', namespace='/v1')
+@store_data
 def v1_delete_drink(message):
   drink_id = message["drinkId"]
   
@@ -165,8 +133,8 @@ def v1_connect():
 @socketio.on_error('/v1') # handles the '/chat' namespace
 def v1_error_handler(e):
   emit('error', "An error occured on {}".format(request.event["message"]))
-  print(type(e))
-  print(e)
+  print(type(e), file=sys.stderr)
+  print(e, file=sys.stderr)
 
 
 if __name__ == '__main__':
