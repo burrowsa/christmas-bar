@@ -15,6 +15,7 @@
         <input class="form-check-input" type="checkbox" v-model="showAll">
         Show Out Of Stock Products
       </label>
+      <a href="#" class="add-drink" v-on:click="addDrink" v-if="isButler()">Add Drink</a>
     </div>
 
     <ul class="list-unstyled">
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 import StockAdjust from '@/components/StockAdjust'
@@ -70,13 +72,24 @@ export default {
     isButler,
     isOrdered (drinkId) {
       return (state.orders[getUserName()] || []).includes(drinkId)
+    },
+    addDrink () {
+      const guid = () => {
+        const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
+        return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`
+      }
+      const drinkId = guid()
+      Vue.set(state.drinks, drinkId, {})
+      this.$router.push(`/butler/edit/${drinkId}`)
     }
   },
   computed: {
     drinkTypes () {
       const types = new Set()
       for (var drinkId in state.drinks) {
-        types.add(state.drinks[drinkId].type)
+        if (state.drinks[drinkId].type) {
+          types.add(state.drinks[drinkId].type)
+        }
       }
       return Array.from(types)
     }

@@ -12,16 +12,19 @@
     </div>
     <div class="media-body">
       <h1 class="media-heading">
-        <input type="text" v-model="state.drinks[drinkId].name" autofocus></input>
+        <input type="text" v-model="state.drinks[drinkId].name" placeholder="Product Name" autofocus></input>
       </h1>
       <h4>
-        <input type="text" v-model="state.drinks[drinkId].manufacturer"></input>
+        <input type="text" v-model="state.drinks[drinkId].manufacturer" placeholder="Manufacturer"></input>
+      </h4>
+      <h4>
+        <input type="text" v-model="state.drinks[drinkId].type" placeholder="Product Type"></input>
       </h4>
       <h6>
         {{ state.quantities[drinkId] || 0 }} remaining
         <stock-adjust :drinkId="drinkId"></stock-adjust>
       </h6>
-      <textarea rows="5" v-model="state.drinks[drinkId].description"></textarea>
+      <textarea rows="5" v-model="state.drinks[drinkId].description" placeholder="Description"></textarea>
       <div>
         <button class="btn btn-default glyphicon glyphicon-remove" v-on:click="$router.push(`/drink/${drinkId}`)"></button>
         <button class="btn btn-default glyphicon glyphicon-floppy-disk" v-on:click="saveDrink"></button>

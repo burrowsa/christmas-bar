@@ -12,6 +12,9 @@
       <h4>
         {{ state.drinks[drinkId].manufacturer }}
       </h4>
+      <h4>
+        {{ state.drinks[drinkId].type }}
+      </h4>
       <h6>
         {{ state.quantities[drinkId] || 0 }} remaining
         <stock-adjust :drinkId="drinkId"></stock-adjust>
