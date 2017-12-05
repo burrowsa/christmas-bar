@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, redirect
 from flask_socketio import SocketIO, emit, disconnect
 import pickle, os, sys
 
@@ -23,6 +23,14 @@ def store_data(fn):
       pickle.dump((_drinks, _orders, _quantities), f)
     return retval
   return _store_data
+
+
+@app.before_request
+def before_request():
+    if not app.debug and request.headers.get('X-Forwarded-Proto', 'http') != 'https':
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 
 @app.route('/')
