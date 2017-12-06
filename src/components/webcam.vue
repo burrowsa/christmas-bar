@@ -31,10 +31,6 @@ export default {
       type: Number,
       default: 300
     },
-    mirror: {
-      type: Boolean,
-      default: true
-    },
     screenshotFormat: {
       type: String,
       default: 'image/jpeg'
@@ -43,12 +39,30 @@ export default {
 
   data () {
     return {
-      video: '',
       src: '',
       stream: '',
       hasUserMedia: false,
-      cameras: [],
       camera: null
+    }
+  },
+
+  computed: {
+    cameras () {
+      const retval = []
+      if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
+        navigator.mediaDevices.enumerateDevices().then((deviceInfos) => {
+          for (var deviceInfo of deviceInfos) {
+            if (deviceInfo.kind === 'videoinput') {
+              retval.push(deviceInfo)
+            }
+          }
+          // This unexpected side-effect is a bit naughty I suppose but it works
+          if (retval.length > 0 && this.camera == null) {
+            this.camera = this.cameras[this.cameras.length - 1].deviceId
+          }
+        })
+      }
+      return retval
     }
   },
 
@@ -78,12 +92,11 @@ export default {
       return canvas
     }
   },
+
   watch: {
     camera () {
       if (this.src) {
-        this.video.pause()
-        this.src = ''
-        this.stream.getTracks()[0].stop()
+        this.beforeDestroy()
       }
 
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -91,39 +104,15 @@ export default {
           this.src = window.URL.createObjectURL(stream)
           this.stream = stream
           this.hasUserMedia = true
-        }).catch((error) => {
-          console.log(error)
-        })
+        }).catch(console.error)
       }
     }
   },
 
-  mounted: function () {
-    this.video = this.$refs.video
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia
-
-    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-      navigator.mediaDevices.enumerateDevices().then((deviceInfos) => {
-        for (var deviceInfo of deviceInfos) {
-          if (deviceInfo.kind === 'videoinput') {
-            this.cameras.push(deviceInfo)
-          }
-        }
-        if (this.cameras.length > 0 && this.camera == null) {
-          this.camera = this.cameras[this.cameras.length - 1].deviceId
-        }
-      })
-    }
-  },
-
   beforeDestroy: function () {
-    this.video.pause()
+    this.$refs.video.pause()
     this.src = ''
     this.stream.getTracks()[0].stop()
-  },
-
-  destroyed: function () {
-    console.log('Destroyed')
   }
 }
 </script>
