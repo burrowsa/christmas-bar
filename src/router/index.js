@@ -5,7 +5,7 @@ import DrinkDetails from '@/pages/DrinkDetails'
 import DrinkEditDetails from '@/pages/DrinkEditDetails'
 import Butler from '@/pages/Butler'
 import Login from '@/pages/Login'
-import {getUserName, isButler} from '@/components/shared'
+import {getUserName, isButler} from '@/shared'
 
 Vue.use(Router)
 

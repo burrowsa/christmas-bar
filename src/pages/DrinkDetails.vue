@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {state, isButler, socket} from '@/components/shared'
+import {state, isButler, socket} from '@/shared'
 import HeaderBar from '@/components/HeaderBar'
 import DrinkButton from '@/components/DrinkButton'
 import StockAdjust from '@/components/StockAdjust'

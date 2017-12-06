@@ -19,7 +19,7 @@
 
 <script>
 import HeaderBar from '@/components/HeaderBar'
-import {state, socket} from '@/components/shared'
+import {state, socket} from '@/shared'
 
 export default {
   name: 'Butler',

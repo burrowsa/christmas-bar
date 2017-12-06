@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {state, getUserName, socket} from '@/components/shared'
+import {state, getUserName, socket} from '@/shared'
 
 export default {
   name: 'DrinkButton',

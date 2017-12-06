@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {state, getUserName, isButler} from '@/components/shared'
+import {state, getUserName, isButler} from '@/shared'
 
 export default {
   name: 'HeaderBar',

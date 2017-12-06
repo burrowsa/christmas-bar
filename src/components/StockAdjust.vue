@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {isButler, socket} from '@/components/shared'
+import {isButler, socket} from '@/shared'
 
 export default {
   name: 'StockAdjust',

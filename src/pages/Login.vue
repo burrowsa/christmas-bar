@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import {isButler} from '@/components/shared'
+import {isButler} from '@/shared'
 
 export default {
   name: 'Login',

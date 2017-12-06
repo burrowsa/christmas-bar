@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {state, socket} from '@/components/shared'
+import {state, socket} from '@/shared'
 import HeaderBar from '@/components/HeaderBar'
 import StockAdjust from '@/components/StockAdjust'
 import Webcam from '@/components/webcam'
