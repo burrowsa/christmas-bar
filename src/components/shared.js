@@ -5,7 +5,7 @@ import io from 'socket.io-client'
 let socketURL = location.protocol + '//' + document.domain + ':' + location.port + '/v1'
 
 if (process.env.NODE_ENV === 'development') {
-  socketURL = 'http://localhost:5050/v1'
+  socketURL = 'https://isthebaropen.co.uk/v1'
 }
 
 export const socket = io(socketURL)
