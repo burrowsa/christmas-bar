@@ -6,6 +6,7 @@
       <webcam ref='webcam' v-if="captureMode" :width="300" :height="300"></webcam>
       <img :src="state.drinks[drinkId].image || '/static/img/question-mark.jpg'" :alt="state.drinks[drinkId].name" v-if="!captureMode">
       <center>
+        <image-upload v-on:image="(src) => {state.drinks[drinkId].image = src}" v-if="!captureMode"></image-upload>
         <button class="btn btn-default glyphicon glyphicon-chevron-left" v-on:click="captureMode = false" v-if="captureMode"></button>
         <button class="btn btn-default glyphicon glyphicon-camera" v-on:click="takePhoto"></button>
       </center>
@@ -39,6 +40,7 @@ import {state, socket} from '@/shared'
 import HeaderBar from '@/components/HeaderBar'
 import StockAdjust from '@/components/StockAdjust'
 import Webcam from '@/components/webcam'
+import ImageUpload from '@/components/ImageUpload'
 
 export default {
   name: 'Drink',
@@ -52,7 +54,8 @@ export default {
   components: {
     HeaderBar,
     StockAdjust,
-    Webcam
+    Webcam,
+    ImageUpload
   },
   methods: {
     saveDrink () {
@@ -98,11 +101,6 @@ export default {
 .media-left .btn {
   margin-top: 10px;
   width: 45%;
-}
-
-.media-left .btn:only-of-type {
-  margin-top: 10px;
-  width: 90%;
 }
 
 .media-body .btn {
