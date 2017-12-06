@@ -64,6 +64,13 @@ export default {
     color: black;
   }
   
+  .my-nav-err .brand::after {
+    color: yellow;
+    content: "Connection Error";
+    font-weight: 100;
+    margin-left: 50px;
+  }
+  
   .my-nav a {
     display: inline-block;
     text-decoration: none;
