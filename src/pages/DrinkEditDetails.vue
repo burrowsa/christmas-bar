@@ -113,6 +113,12 @@ export default {
   width: 22%;
 }
 
+.media {
+  @media (min-width: $screen-md-min) {
+    margin: 30px;
+  }
+}
+
 .btn.selected {
   background-color: pink;
 }

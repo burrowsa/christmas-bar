@@ -1,7 +1,7 @@
 <template>
 <div>
   <header-bar></header-bar>
-  <div class="container">
+  <div class="container" id="butler">
     <template v-for="orders, user in state.orders">
       <div v-if="orders.length > 0">
         <h2>{{user}}</h2>
@@ -58,6 +58,12 @@ export default {
   left: 0.9em;
   background-color: crimson;
   color: white;
+}
+
+#butler {
+  @media (min-width: $screen-md) {
+    margin: 10px;
+  }
 }
 
 </style>

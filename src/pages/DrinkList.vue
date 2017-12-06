@@ -102,7 +102,7 @@ export default {
 @import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
 
 #drink-list {
-  @media (min-width:screen-md-min) {
+  @media (min-width: $screen-md) {
     width: 50%;
     margin: auto;
   }
