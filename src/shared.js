@@ -51,7 +51,9 @@ export const state = {
   drinks: {},
   quantities: {},
   orders: {},
-  connected: false
+  connected: false,
+  showAll: false,
+  typeFilter: '!!!!Any!!!!'
 }
 
 export function getUserName () {

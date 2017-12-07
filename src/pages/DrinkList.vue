@@ -3,7 +3,7 @@
   <header-bar></header-bar>
 
   <div id="drink-list">
-    <select v-model="typeFilter" class="form-control">
+    <select v-model="state.typeFilter" class="form-control">
       <option value="!!!!Any!!!!">Any</option>
       <option :value="drinkType" v-for="drinkType in drinkTypes">
         {{ drinkType.replace(/\b\S/g, function(t) { return t.toUpperCase() }) /* Convert to title case */ }}
@@ -13,7 +13,7 @@
 
     <div class="form-check">
       <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" v-model="showAll">
+        <input class="form-check-input" type="checkbox" v-model="state.showAll">
         Show Out Of Stock Products
       </label>
       <a href="#" class="add-drink" v-on:click="addDrink" v-if="isButler()">Add Drink</a>
@@ -21,7 +21,7 @@
 
     <ul class="list-unstyled">
       <template v-for="(drink, drinkId) in state.drinks">
-        <li class="media mt-0" v-if="(showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (typeFilter==='!!!!Any!!!!' || typeFilter===drink.type)">
+        <li class="media mt-0" v-if="(state.showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (state.typeFilter==='!!!!Any!!!!' || state.typeFilter===drink.type)">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
               <img :src="drink.image" :alt="drink.name">
@@ -59,9 +59,7 @@ export default {
   name: 'DrinkList',
   data () {
     return {
-      state,
-      showAll: false,
-      typeFilter: '!!!!Any!!!!'
+      state
     }
   },
   components: {
