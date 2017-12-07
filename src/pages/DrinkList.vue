@@ -4,10 +4,11 @@
 
   <div id="drink-list">
     <select v-model="typeFilter" class="form-control">
-      <option value="">Any</option>
+      <option value="!!!!Any!!!!">Any</option>
       <option :value="drinkType" v-for="drinkType in drinkTypes">
         {{ drinkType.replace(/\b\S/g, function(t) { return t.toUpperCase() }) /* Convert to title case */ }}
       </option>
+      <option value="" v-if="isButler()">No Type Specified</option>
     </select>
 
     <div class="form-check">
@@ -20,7 +21,7 @@
 
     <ul class="list-unstyled">
       <template v-for="(drink, drinkId) in state.drinks">
-        <li class="media mt-0" v-if="(showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (typeFilter==='' || typeFilter===drink.type)">
+        <li class="media mt-0" v-if="(showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (typeFilter==='!!!!Any!!!!' || typeFilter===drink.type)">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
               <img :src="drink.image" :alt="drink.name">
@@ -60,7 +61,7 @@ export default {
     return {
       state,
       showAll: false,
-      typeFilter: ''
+      typeFilter: '!!!!Any!!!!'
     }
   },
   components: {
@@ -91,7 +92,9 @@ export default {
           types.add(state.drinks[drinkId].type)
         }
       }
-      return Array.from(types)
+      const arr = Array.from(types)
+      arr.sort()
+      return arr
     }
   }
 }
