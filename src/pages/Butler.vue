@@ -6,10 +6,16 @@
       <div v-if="orders.length > 0">
         <h2>{{user}}</h2>
         <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action" v-for="drinkId in orders" v-on:click="fulfilOrder(user, drinkId)">
-            <span>{{ state.drinks[drinkId].name }}</span>
-            <button class="btn btn-default pull-right" v-on:click="cancelOrder(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
-          </a>
+          <template v-for="drinkId in orders">
+            <a href="#" class="list-group-item list-group-item-action" v-on:click="fulfilOrder(user, drinkId)" v-if="drinkId in state.drinks">
+              <span>{{ state.drinks[drinkId].name }}</span>
+              <button class="btn btn-default pull-right" v-on:click="cancelOrder(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action" v-else>
+              <span>Deleted</span>
+              <button class="btn btn-default pull-right" v-on:click="cancelOrder(user, drinkId)"><span class="glyphicon glyphicon-remove"></span></button>
+            </a>
+          </template>
         </div>
       </div>
     </template>
