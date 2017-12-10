@@ -65,8 +65,8 @@ export default {
   }
   
   .my-nav-err .brand::after {
-    color: yellow;
-    content: "Connection Error";
+    color: black;
+    content: "Connecting..";
     font-weight: 100;
     margin-left: 50px;
   }
