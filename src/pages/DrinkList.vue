@@ -11,6 +11,16 @@
       </option>
       <option value="" v-if="isButler()">No Type Specified</option>
     </select>
+    
+    <label class="radio-inline">
+    <input type="radio" name="sort" v-model="state.sort" value="name">Name
+    </label>
+    <label class="radio-inline">
+    <input type="radio" name="sort" v-model="state.sort" value="manufacturer">Manufacturer
+    </label>
+    <label class="radio-inline">
+    <input type="radio" name="sort" v-model="state.sort" value="quantity">Quantity
+    </label>
 
     <div class="form-check">
       <label class="form-check-label">
@@ -21,7 +31,7 @@
     </div>
 
     <ul class="list-unstyled">
-      <template v-for="(drink, drinkId) in state.drinks">
+      <template v-for="{drinkId, drink} in drinks">
         <li class="media mt-0" v-if="(state.showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (state.typeFilter==='!!!!Any!!!!' || state.typeFilter===drink.type) && (!state.search || drink.name.toLowerCase().includes(state.search.toLowerCase()))">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
@@ -94,6 +104,25 @@ export default {
       const arr = Array.from(types)
       arr.sort()
       return arr
+    },
+
+    drinks () {
+      let lst = []
+
+      for (const drinkId in state.drinks) {
+        const drink = state.drinks[drinkId]
+        lst.push({drinkId, drink})
+      }
+
+      if (state.sort) {
+        if (state.sort === 'quantity') {
+          lst.sort((a, b) => (state.quantities[b.drinkId] || 0) - (state.quantities[a.drinkId] || 0))
+        } else {
+          lst.sort((a, b) => a.drink[state.sort].toLowerCase().localeCompare(b.drink[state.sort].toLowerCase()))
+        }
+      }
+
+      return lst
     }
   }
 }

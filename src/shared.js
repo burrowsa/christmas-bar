@@ -53,7 +53,9 @@ export const state = {
   orders: {},
   connected: false,
   showAll: false,
-  typeFilter: '!!!!Any!!!!'
+  typeFilter: '!!!!Any!!!!',
+  search: '',
+  sort: 'name'
 }
 
 export function getUserName () {
