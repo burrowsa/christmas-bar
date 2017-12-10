@@ -7,7 +7,7 @@
 
     <div id="logon-box">
       <form v-on:submit.prevent="login">
-        <input type="text" v-model="name" required autofocus></input>
+        <input type="text" v-model="name" required autofocus placeholder="Name"></input>
         <input type="submit" class="btn btn-default" value="Login" ></input>
       </form>
     </div>

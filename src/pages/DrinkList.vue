@@ -3,6 +3,7 @@
   <header-bar></header-bar>
 
   <div id="drink-list">
+    <input v-model="state.search" placeholder="Search..." class="form-control"></input>
     <select v-model="state.typeFilter" class="form-control">
       <option value="!!!!Any!!!!">Any</option>
       <option :value="drinkType" v-for="drinkType in drinkTypes">
@@ -21,7 +22,7 @@
 
     <ul class="list-unstyled">
       <template v-for="(drink, drinkId) in state.drinks">
-        <li class="media mt-0" v-if="(state.showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (state.typeFilter==='!!!!Any!!!!' || state.typeFilter===drink.type)">
+        <li class="media mt-0" v-if="(state.showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (state.typeFilter==='!!!!Any!!!!' || state.typeFilter===drink.type) && (!state.search || drink.name.toLowerCase().includes(state.search.toLowerCase()))">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
               <img :src="drink.image" :alt="drink.name">
@@ -131,5 +132,9 @@ export default {
 
 .btn.selected {
   background-color: pink;
+}
+
+.form-control {
+  margin-bottom: 3px;
 }
 </style>
