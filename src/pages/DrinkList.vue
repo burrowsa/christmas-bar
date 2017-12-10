@@ -32,7 +32,7 @@
 
     <ul class="list-unstyled">
       <template v-for="{drinkId, drink} in drinks">
-        <li class="media mt-0" v-if="(state.showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (state.typeFilter==='!!!!Any!!!!' || state.typeFilter===drink.type) && (!state.search || drink.name.toLowerCase().includes(state.search.toLowerCase()))">
+        <li class="media mt-0" v-if="(state.showAll || (state.quantities[drinkId] > 0) || isOrdered(drinkId)) && (state.typeFilter==='!!!!Any!!!!' || state.typeFilter===drink.type || (state.typeFilter==='' && !drink.type)) && (!state.search || drink.name.toLowerCase().includes(state.search.toLowerCase()))">
           <div class="media-left">
             <router-link :to="`/drink/${drinkId}`">
               <img :src="drink.image" :alt="drink.name">
