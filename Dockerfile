@@ -10,7 +10,6 @@ COPY ./dot_aws_credentials.txt /home/xmasbar/.aws/credentials
 COPY ./dist /xmasbar
 
 COPY ./aws.py /xmasbar
-COPY ./materialise_images.py /xmasbar
 COPY ./backend.py /xmasbar
 WORKDIR /xmasbar
 ENV FLASK_APP="backend.py"

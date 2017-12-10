@@ -3,12 +3,15 @@ from flask import Flask, send_file, request, redirect
 from flask_socketio import SocketIO, emit, disconnect
 import sys
 from aws import bucket, load_data, save_drink, save_orders, save_quantities, remove_drink
+from binascii import a2b_base64
 
 
 app = Flask(__name__) 
 app.config['SECRET_KEY'] = b"^\x96\xf2\xbeH\xef='T\xf7<\xe8h\xc8\xa8g\x9c\xb1\x86\x84\xf3w\x15W" 
 socketio = SocketIO(app, async_mode=None) 
 _drinks, _orders, _quantities = load_data(bucket)
+JPEG_DATA_URL_PREFIX = "data:image/jpeg;base64,"
+S3_WEB_URL_TEMPLATE = "http://isthebaropen.s3-website-eu-west-1.amazonaws.com/images/{}.jpg"
 
 
 @app.before_request
@@ -106,6 +109,14 @@ def v1_save_drink(message):
   
   drink_id = list(message.keys())[0]
   _drinks[drink_id] = message[drink_id]
+  drink = _drinks[drink_id] 
+  
+  if 'image' in drink and drink['image'].startswith(JPEG_DATA_URL_PREFIX):
+    data = drink['image'][len(JPEG_DATA_URL_PREFIX):]
+    binary_data = a2b_base64(data)
+    bucket.put_object(Key="images/{}.jpg".format(drink_id), Body=binary_data, ACL='public-read')
+
+    drink['image'] = S3_WEB_URL_TEMPLATE.format(drink_id)
   
   save_drink(bucket, _drinks, drink_id)
   emit('update_drink', {drink_id: _drinks[drink_id]}, broadcast=True)
