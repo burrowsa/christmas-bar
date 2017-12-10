@@ -4,7 +4,6 @@ services:
     build: .
     ports:
      - "80:5000"
-    volumes:
-      - /persisted/data:/data
     restart: always
-
+    volumes: 
+      - /persisted/data:/data:ro 

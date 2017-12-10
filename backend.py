@@ -1,28 +1,14 @@
 #!/usr/bin/env python
 from flask import Flask, send_file, request, redirect
 from flask_socketio import SocketIO, emit, disconnect
-import pickle, os, sys
+import sys
+from aws import bucket, load_data, save_drink, save_orders, save_quantities, remove_drink
 
 
 app = Flask(__name__) 
 app.config['SECRET_KEY'] = b"^\x96\xf2\xbeH\xef='T\xf7<\xe8h\xc8\xa8g\x9c\xb1\x86\x84\xf3w\x15W" 
 socketio = SocketIO(app, async_mode=None) 
-DATA_PATH = '/data/xmasbar.pckl' 
-_drinks, _orders, _quantities = {}, {}, {}
-
-
-if os.path.exists(DATA_PATH):
-  with open(DATA_PATH, 'rb') as f:
-    _drinks, _orders, _quantities = pickle.load(f)
-
-
-def store_data(fn):
-  def _store_data(*args, **kwargs):
-    retval = fn(*args, **kwargs)
-    with open(DATA_PATH, 'wb') as f:
-      pickle.dump((_drinks, _orders, _quantities), f)
-    return retval
-  return _store_data
+_drinks, _orders, _quantities = load_data(bucket)
 
 
 @app.before_request
@@ -51,7 +37,6 @@ def emit_data(orders=False, quantities=False, drinks=False, broadcast=False):
 
 
 @socketio.on('place_order', namespace='/v1')
-@store_data
 def v1_place_order(message):
   username = message["username"]
   drink_id = message["drinkId"]
@@ -62,11 +47,12 @@ def v1_place_order(message):
     user_orders.add(drink_id)
     _quantities[drink_id] = quantity_remaining - 1
 
+    save_orders(bucket, _orders, username)
+    save_quantities(bucket, _quantities)
     emit_data(orders=True, quantities=True, broadcast=True)
 
 
 @socketio.on('cancel_order', namespace='/v1')
-@store_data
 def v1_cancel_order(message):
   username = message["username"]
   drink_id = message["drinkId"]
@@ -76,11 +62,12 @@ def v1_cancel_order(message):
     user_orders.remove(drink_id)
     _quantities[drink_id] = _quantities.get(drink_id, 0) + 1
   
+  save_orders(bucket, _orders, username)
+  save_quantities(bucket, _quantities)
   emit_data(orders=True, quantities=True, broadcast=True)
 
 
 @socketio.on('fulfil_order', namespace='/v1')
-@store_data
 def v1_fulfil_order(message):
   username = message["username"]
   drink_id = message["drinkId"]
@@ -89,17 +76,18 @@ def v1_fulfil_order(message):
   if drink_id in user_orders:
     user_orders.remove(drink_id)
   
+  save_orders(bucket, _orders, username)
   emit_data(orders=True, broadcast=True)
 
 
 @socketio.on('adjust_quantity', namespace='/v1')
-@store_data
 def v1_adjust_quantity(message):
   drink_id = message["drinkId"]
   delta = int(message["delta"])
   
   _quantities[drink_id] = _quantities.get(drink_id, 0) + delta
   
+  save_quantities(bucket, _quantities)
   emit_data(quantities=True, broadcast=True)
 
 
@@ -113,22 +101,22 @@ def v1_reload_drink(message):
 
 
 @socketio.on('save_drink', namespace='/v1')
-@store_data
 def v1_save_drink(message):
   assert len(message.keys()) == 1
   
   drink_id = list(message.keys())[0]
   _drinks[drink_id] = message[drink_id]
   
+  save_drink(bucket, _drinks, drink_id)
   emit('update_drink', {drink_id: _drinks[drink_id]}, broadcast=True)
 
 
 @socketio.on('delete_drink', namespace='/v1')
-@store_data
 def v1_delete_drink(message):
   drink_id = message["drinkId"]
   
   if drink_id in _drinks:
+    remove_drink(bucket, drink_id)
     del _drinks[drink_id]
     emit('remove_drink', dict(drinkId=drink_id), broadcast=True)
 
