@@ -42,6 +42,9 @@ const router = new Router({
 })
 
 router.beforeEach(function (to, from, next) {
+  if (isButler()) {
+    document.documentElement.webkitRequestFullscreen()
+  }
   if ((to.path.startsWith('/butler') && !isButler()) || (to.path !== '/login' && getUserName() == null)) {
     next('/login')
   } else {
