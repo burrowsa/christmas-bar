@@ -1,0 +1,13 @@
+{
+  "short_name": "Christmas Bar",
+  "name": "Christmas Bar",
+  "icons": [
+    {
+      "src": "/static/apple-icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone"
+}
