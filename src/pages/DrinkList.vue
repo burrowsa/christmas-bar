@@ -3,7 +3,7 @@
   <header-bar></header-bar>
 
   <div id="drink-list">
-    <input v-model="state.search" placeholder="Search..." class="form-control"></input>
+    <input type="search" v-model="state.search" placeholder="Search..." class="form-control"></input>
     <select v-model="state.typeFilter" class="form-control">
       <option value="!!!!Any!!!!">Any</option>
       <option :value="drinkType" v-for="drinkType in drinkTypes">
@@ -165,5 +165,10 @@ export default {
 
 .form-control {
   margin-bottom: 3px;
+}
+
+// Bootstrap scuppers the cancel button on search inputs, this puts it back
+input[type="search"]::-webkit-search-cancel-button {
+-webkit-appearance: searchfield-cancel-button;
 }
 </style>
