@@ -3,6 +3,7 @@
     <router-link to="/" class="brand"><span class="glyphicon glyphicon-tree-conifer"></span><span class="glyphicon glyphicon-glass"></span></router-link>
     <span class="right">
       <template v-if="butler">
+        <span class="glyphicon glyphicon-fullscreen" v-on:click="fullscreen"></span>
         <router-link to="/butler" class="right">{{ userName }}</router-link>
       </template>
       <template v-else>
@@ -41,6 +42,10 @@ export default {
     logout () {
       localStorage.removeItem('name')
       this.$router.push('/login')
+    },
+    fullscreen () {
+      document.documentElement.webkitRequestFullscreen()
+      this.screenstate = !this.screenstate
     }
   }
 }
