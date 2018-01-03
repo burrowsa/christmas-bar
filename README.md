@@ -12,6 +12,14 @@ The back-end is implemented in Python and flask and hosted on EC2. The back-end 
 
 ![](architecture.png)
 
+## Web front-end
+
+The Vue.js front-end uses the Vue router to switch between pages. Each page is a self contained component. Common functionality between pages such as the header bar and the "drink" button are spun out into a separate component to allow easy reuse.
+
+![](pages.png)
+
+The EditDrinkDetails page makes use of specialist components to allow the capturing of product images using in-device camera(s) or by uploading files. The images are scaled in the client before upload.
+
 ## Physical Notifier
 
 The notifier is made from a lightbox, a raspberry pi and few electronic components. To make it portable it has a rechargeable USB battery pack to power the pi.
