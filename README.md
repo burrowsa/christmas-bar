@@ -1,6 +1,6 @@
 # Christmas Bar
 
-Keeps track of drinks orders and stock levels at Christmas. The main front-end is a Vue.js web-app which also has a manifest to allow it to be installed as a stand-alone application on a smart-phone or tablet. In addition there is an alexa skill to allow ordering by voice and a physical notifier that lights up when there are active orders.
+At Christmas we have a full house, with lots of family visiting. I like to have a well stocked bar so I made this application to keep track of drinks orders and stock levels. The main front-end is a Vue.js web-app which also has a manifest to allow it to be installed as a stand-alone application on a smart-phone or tablet. In addition there is an alexa skill to allow ordering by voice and a physical notifier that lights up when there are active orders.
 
 The Butler super-user can't order drinks but can add new drinks, edit existing drinks and tweak stock levels. I kept a tablet in the kitchen logged in as the Butler for this purpose, the dedicated butler screen it showed was a live display of current orders with the ability to cancel or acknowledge them.
 
