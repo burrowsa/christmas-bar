@@ -4,11 +4,15 @@ COPY ./package.json /xmasbar
 COPY ./package-lock.json /xmasbar
 WORKDIR /xmasbar
 RUN npm install
-COPY ./build /xmasbar
-COPY ./static /xmasbar
-COPY ./src /xmasbar
-COPY ./config /xmasbar
+COPY ./build /xmasbar/build
+COPY ./static /xmasbar/static
+COPY ./src /xmasbar/src
+COPY ./config /xmasbar/config
 COPY ./index.html /xmasbar
+COPY ./.babelrc /xmasbar
+COPY ./.eslintignore /xmasbar
+COPY ./.postcssrc.js /xmasbar
+COPY ./.eslintrc.js /xmasbar
 RUN npm run build
 
 FROM alpine:3.6
