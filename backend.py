@@ -22,14 +22,6 @@ JPEG_DATA_URL_PREFIX = "data:image/jpeg;base64,"
 S3_WEB_URL_TEMPLATE = "http://isthebaropen.s3-website-eu-west-1.amazonaws.com/images/{}.jpg"
 
 
-@app.before_request
-def before_request():
-    if not app.debug and request.headers.get('X-Forwarded-Proto', 'http') != 'https':
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
-
-
 @app.route('/')
 def index():
   return send_file('index.html')

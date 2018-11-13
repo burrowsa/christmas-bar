@@ -23,8 +23,6 @@ RUN addgroup xmasbar && \
 #RUN mkdir /data && chown xmasbar:xmasbar /data
 RUN mkdir /xmasbar && chown xmasbar:xmasbar /xmasbar
 USER xmasbar
-COPY --chown=xmasbar:xmasbar ./dot_aws_config.txt /home/xmasbar/.aws/config
-COPY --chown=xmasbar:xmasbar ./dot_aws_credentials.txt /home/xmasbar/.aws/credentials
 COPY --chown=xmasbar:xmasbar --from=0 ./xmasbar/dist /xmasbar
 
 COPY --chown=xmasbar:xmasbar ./aws.py /xmasbar
