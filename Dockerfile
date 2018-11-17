@@ -16,6 +16,7 @@ COPY ./.eslintrc.js /xmasbar
 RUN npm run build
 
 FROM alpine:3.6
+LABEL com.centurylinklabs.watchtower.stop-signal="KILL"
 RUN apk add --no-cache python3 python3-dev musl-dev gcc libffi-dev openssl-dev
 RUN pip3 install Flask_SocketIO eventlet boto3 flask_ask
 RUN addgroup xmasbar && \
