@@ -174,7 +174,7 @@ def find_person(person):
 @ask.intent('OrderDrink')
 def alexa_order_drink(person, drink):
   if ask_session['dialogState'] != 'COMPLETED' or drink is None or person is None:
-    return delegate(speech=None)  # speech should not be needed
+    return delegate()
 
   person = resolve_synonym('person', person)  
   username = find_person(person)
