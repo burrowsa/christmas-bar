@@ -2,6 +2,13 @@ version: '2'
 services:
   app:
     build: .
+    image: burrowsa/christmas-bar
     ports:
      - "80:5000"
+    restart: always
+  watchtower:
+    image: v2tec/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
     restart: always
