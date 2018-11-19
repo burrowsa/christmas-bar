@@ -35,17 +35,38 @@ The Alexa skill allows family members to order drinks by saying something like "
 ![](alexa.png)
 
 ## Build and Run
+Use docker-compose to build and run the application:
+``` bash
+# docker run
+sudo docker-compose up --build -d
+```
+
+## Production
+On a new EC2 instance (running Amazon Linux) run the following commands to install `docker` and `docker-compose`:
 
 ``` bash
-# docker build
-sudo docker-compose build
+sudo yum update -y
+sudo yum install -y docker
+sudo service docker start
+sudo systemctl enable docker
+sudo usermod -a -G docker ec2-user
 
-# docker run
-sudo docker-compose up -d
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
-# push docker image to registry
-sudo docker-compose push
-
-# pull images from registry (use in prod in place of build step)
-sudo docker-compose pull
+logout
 ```
+
+Then install and run `christmas-bar` with:
+
+``` bash
+mkdir christmas-bar
+cd christmas-bar
+wget https://raw.githubusercontent.com/burrowsa/christmas-bar/master/docker-compose.yml
+
+docker-compose pull
+docker-compose up -d
+```
+
+## Continuous deployment
+Continuous deployment is handled using a [docker-hub automated](https://docs.docker.com/docker-hub/builds/) build and [watchtower](https://github.com/v2tec/watchtower).
