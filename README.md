@@ -37,18 +37,15 @@ The Alexa skill allows family members to order drinks by saying something like "
 ## Build and Run
 
 ``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at http://0.0.0.0:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
 # docker build
 sudo docker-compose build
 
 # docker run
 sudo docker-compose up -d
+
+# push docker image to registry
+sudo docker-compose push
+
+# pull images from registry (use in prod in place of build step)
+sudo docker-compose pull
 ```
