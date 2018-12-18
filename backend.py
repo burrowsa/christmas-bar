@@ -19,7 +19,7 @@ _drinks, _orders, _quantities = load_data(bucket)
 
 
 JPEG_DATA_URL_PREFIX = "data:image/jpeg;base64,"
-S3_WEB_URL_TEMPLATE = "http://isthebaropen.s3-website-eu-west-1.amazonaws.com/images/{}.jpg"
+S3_WEB_URL_TEMPLATE = "https://d33d54z991aawx.cloudfront.net/images/{}.jpg"
 
 
 @app.route('/')
