@@ -19,6 +19,7 @@ def load_data(bucket):
       if obj.key.startswith('drinks/'):
         drink_id = obj.key.split('/', 1)[1].replace('.json', '')
         drinks[drink_id] = json.loads(obj.get()['Body'].read().decode('utf-8'))
+        drinks[drink_id]['image'] = drinks[drink_id]['image'].replace('http://isthebaropen.s3-website-eu-west-1.amazonaws.com', 'https://d33d54z991aawx.cloudfront.net')
       elif obj.key.startswith('orders/'):
         user_id = obj.key.split('/', 1)[1].replace('.json', '')
         orders[user_id] = set(json.loads(obj.get()['Body'].read().decode('utf-8')))
